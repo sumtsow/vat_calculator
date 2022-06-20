@@ -1,3 +1,86 @@
 body {
-    background-color: lightgray;
+		background: #ebf5f0;
+	}
+
+.switch {
+	position: relative;
+	margin: 20px auto;
+	height: 34px;
+	width: 260px;
+	background: #b7b7b7;
+	border-radius: 20px; 
+	padding:3px;
 }
+
+.switch input {
+	display:none;
+}
+
+.switch label {
+	position: relative;
+	float:left;
+	color: white;
+	font-size:16px;
+	font-weight: 600;
+	width:50%;
+	height:26px;
+	text-align:center; 
+	padding-top:3px;
+	z-index: 2;
+	cursor:pointer;
+}
+
+.selection {
+	position:absolute;
+	display: block; 
+	top:0px;
+	left:0px;
+	width:50%;
+	background:#FFF;
+	height:34px;
+	border-radius:20px;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	z-index: 1;
+	-webkit-transition: 0.15s ease-out;
+	-moz-transition: 0.15s ease-out;
+	-o-transition: 0.15s ease-out;
+	transition: 0.15s ease-out;
+}
+
+.switch input[type=checkbox]:checked + .selection {
+	left:50%;
+}
+
+.form-wrapper {
+	background: #b7b7b7;
+	max-width: 800px;
+	margin: 30px auto;
+	padding: 15px;
+	border-radius: 10px;
+}
+
+.history-wrapper {
+	max-width: 1300px;
+	width: 90%;
+	margin: 80px auto 30px auto;
+}
+
+.page-item.active .page-link {
+	background-color: #5e8167;
+	border-color: #364a3c;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+	width: auto;
+	display: inline-block;
+}
+
+.svg-country {
+	width: 30px;
+	height: 30px;
+	margin: 0 6px;
+}
+#calculation_country {
+	font-size: 1.3em;
+}
+

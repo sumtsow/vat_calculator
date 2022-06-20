@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your results{% endblock %}
+
+{% block body %}
+{{ source('@public/images/sprite.svg') }}
+<div class="form-wrapper">
+	{% if results is defined and results is not null and results is iterable %}
+		<form id="results">
+			<fieldset disabled>
+				{% if results.countryRate is defined and results.countryRate is not null and results.countryRate is iterable %}
+					{% set currency = results.countryRate.currency.symbol %}
+					<div class="mb-3">
+						<div id="calculation_country" class="form-text">Calculation for the standard rate of <svg class="svg-country" width="640" height="480" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-{{ results.countryRate.countryCode }}"></use></svg>{{ results.countryRate.countryName }}</div>
+					</div>
+				{% else %}
+					<div class="mb-3">
+						<div id="calculation_country" class="form-text">Calculation for the custom VAT Rate ({{ results.vatRate }} %)</div>
+					</div>
+				{% endif %}
+				<div class="mb-3">
+					<label for="disabledTextInput" class="form-label">Based on{{ currency is defined ? ', ' ~ currency : ''}}</label>
+					<input type="text" id="disabledNetAmount" class="form-control" placeholder="{{ results.basedOn }}">
+				</div>
+				<div class="mb-3">
+					<label for="disabledTextInput" class="form-label">Net Amount (excluding VAT){{ currency is defined ? ', ' ~ currency : ''}}</label>
+					<input type="text" id="disabledNetAmount" class="form-control" placeholder="{{ results.netAmount }}">
+				</div>
+				<div class="mb-3">
+					<label for="disabledTextInput" class="form-label">VAT (Rate - {{ results.vatRate }} %){{ currency is defined ? ', ' ~ currency : ''}}</label>
+					<input type="text" id="disabledVatAmount" class="form-control" placeholder="{{ results.vatAmount }}">
+				</div>
+				<div class="mb-3">
+					<label for="disabledTextInput" class="form-label">Gross Amount (including VAT){{ currency is defined ? ', ' ~ currency : ''}}</label>
+					<input type="text" id="disabledGrossAmount" class="form-control" placeholder="{{ results.grossAmount }}">
+				</div>
+			</fieldset>
+		</form>
+		<a class="btn btn-success clc-sbm" href="/">Back to calculation</a>
+	{% endif %}
+</div>
+<div class="history-wrapper">
+	{% include 'calculator/history.html.twig' %}
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col"><h2 class="mb-4">Calculations history</h2></div>
+			{% if calculations|length > 0 %}
+				<form action="\" method="post" class="float-right col" id="history_form">
+					<input type="hidden" id="action" name="action" value="" />
+					<button type="submit" class="btn btn-outline-danger float-end ms-2" id="delete_history">Delete</button>
+					<button type="submit" class="btn btn-outline-info float-end" id="download_history">Download</button>
+				</form>
+			{% endif %}
+		</div>
+	</div>
+	{% if count is defined and count > 0 %}
+		<div class="alert alert-success" id="success_delete">You successfully deleted {{ count }} records</div>
+	{% elseif count is defined and count == 0 %}
+		<div class="alert alert-warning" id="warning_delete">There are no records to delete</div>
+	{% endif %}
+	<table class="table" id="history">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Type of VAT</th>
+				<th scope="col">Calculation based on</th>
+				<th scope="col">VAT Rate, %</th>
+				<th scope="col">VAT Operation</th>
+				<th scope="col">Net Amount</th>
+				<th scope="col">VAT Amount</th>
+				<th scope="col">Gross Amount</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if calculations|length > 0 %}
+				{% for calculation in calculations %}
+					<tr>
+						<td>{{ calculation.id }}</td>
+						{% if calculation.countryRate is defined and calculation.countryRate is not null and calculation.countryRate is iterable %}
+							<td>{{ calculation.countryRate.countryName }} standard VAT</td>
+							{% set currency = calculation.countryRate.currency.symbol %}
+						{% else %}
+							<td>Custom VAT</td>
+							{% set currency = '' %}
+						{% endif %}
+						<td>{{ currency ~ calculation.basedOn }}</td>
+						<td>{{ calculation.vatRate }}</td>
+						{% if calculation.vatAdded == 1 %}
+							<td>VAT Added</td>
+						{% elseif calculation.vatRemoved == 1 %}
+							<td>VAT Removed</td>
+						{% endif %}
+						<td>{{ currency ~ calculation.netAmount }}</td>
+						<td>{{ currency ~ calculation.vatAmount }}</td>
+						<td>{{ currency ~ calculation.grossAmount }}</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+{% endblock %}
